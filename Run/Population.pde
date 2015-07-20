@@ -5,6 +5,8 @@ class Population{
   ArrayList<Individual> population;  
   int size;
   int progenitors;
+  float gap;
+  HashMap<Individual,Integer> newbies = new HashMap<Individual,Integer>();
   
   Population(ArrayList<Individual> population, int progenitors){
     this.progenitors = progenitors;
@@ -13,13 +15,17 @@ class Population{
   }
   
   void evolve(){
+    newbies = new HashMap<Individual,Integer>();
+    gap = 0;
     ArrayList<Individual> candidates = select();
     crossover(candidates);
     mutate(candidates);
     for (int i = 0;i<progenitors;i++){
       candidates.get(i).calculateFitness();
+      newbies.put(candidates.get(i),null);
     }
     population = replace(candidates);
+    gap = gap/size;
   }
   
   private void sort(ArrayList<Individual> l){
@@ -69,6 +75,9 @@ class Population{
     ArrayList<Individual> ret = new ArrayList<Individual>();
     for (int i = 0; i<size;i++){
       ret.add(all.get(i));
+      if (newbies.containsKey(all.get(i))){
+        gap++;
+      }
     }
     return ret;
   } 
