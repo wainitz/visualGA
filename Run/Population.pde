@@ -21,7 +21,7 @@ class Population{
     crossover(candidates);
     mutate(candidates);
     for (int i = 0;i<progenitors;i++){
-      candidates.get(i).calculateFitness();
+      //candidates.get(i).getFitness();
       newbies.put(candidates.get(i),null);
     }
     population = replace(candidates);
@@ -45,7 +45,7 @@ class Population{
     sort(population);
     ArrayList<Individual> ret = new ArrayList<Individual>();
     for (int i = 0; i<progenitors;i++){
-      ret.add(population.get(i));
+      ret.add(population.get(i).clone());
     }
     return ret;
   }

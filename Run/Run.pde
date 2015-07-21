@@ -75,8 +75,44 @@ void updateCursor(){
   
 Population initializePopulation(){
   ArrayList<Individual> l = new ArrayList<Individual>();
-  for (int i=0; i<size;i++){
+  /*for (int i=0; i<size;i++){
     Square s = new Square();
+    l.add(s);
+    dl.add(new DrawableIndividual(s));
+  }*/
+  
+  // c1 = x, y, !z
+  // c2 = !x
+  // c3 = !y
+  // c4 = z
+  HashMap<String, Boolean> c1 = new HashMap<String, Boolean>();
+  c1.put("x", true);
+  c1.put("y", true);
+  c1.put("z", false);
+
+  HashMap<String, Boolean> c2 = new HashMap<String, Boolean>();
+  c2.put("x", false);
+  
+  HashMap<String, Boolean> c3 = new HashMap<String, Boolean>();
+  c3.put("y", false);
+  
+  HashMap<String, Boolean> c4 = new HashMap<String, Boolean>();
+  c4.put("z", true);
+  
+  Clause clause1 = new Clause(c1);
+  Clause clause2 = new Clause(c2);
+  Clause clause3 = new Clause(c3);
+  Clause clause4 = new Clause(c4);
+  
+  ArrayList<Clause> formula = new ArrayList<Clause>();
+  formula.add(clause1);
+  formula.add(clause2);
+  formula.add(clause3);
+  formula.add(clause4);
+  
+  
+  for (int i=0; i<size;i++){
+    SAT s = new SAT(formula);
     l.add(s);
     dl.add(new DrawableIndividual(s));
   }

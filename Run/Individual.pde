@@ -1,9 +1,9 @@
 interface Individual { 
   
   float getFitness();
-  void calculateFitness();
   Individual crossover(Individual other);
   Individual mutate();
+  Individual clone();
   float expectedMaxFitness();
   
 }

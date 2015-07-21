@@ -1,4 +1,4 @@
-class Square implements Individual{
+/*class Square implements Individual{
   
   int state;
   Float fitness;
@@ -10,18 +10,11 @@ class Square implements Individual{
   
   Square(int state){
     this.state = state;
-    fitness = null;
+    fitness = getFitness();
   }
   
   float getFitness(){
-    if (fitness == null){
-      calculateFitness();
-    }
-    return fitness;
-  }
-  
-  void calculateFitness(){
-     fitness = state*state*1.0;
+     return state*state*1.0;
   }
     
   
@@ -40,4 +33,4 @@ class Square implements Individual{
     return 100*100;
   }
   
-}
+}*/
