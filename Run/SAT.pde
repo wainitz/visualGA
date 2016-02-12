@@ -67,6 +67,8 @@ class SAT implements Individual {
      return sum;
   }
   
+ 
+  
    
 }
 
@@ -79,7 +81,6 @@ class Clause {
    HashMap<String, Boolean> variables;
    
    int size() {
-    println("SIZE: " + variables.size());
     return variables.size(); 
    }
    
@@ -89,10 +90,26 @@ class Clause {
    
    float eval(HashMap<String, Boolean> assignment){
      for (String variable : variables.keySet()) {
-      if (assignment.get(variable) == variables.get(variable)){
+      if (variables.get(variable)==null || assignment.get(variable) == variables.get(variable)){
         return 1.0;
       }
      }
      return 0.0;
+   }
+   
+   String toString(){
+     String str="";
+     for (String key : variables.keySet()){
+       if (variables.get(key)==null){
+         str+=(key+" ~"+key+" ");
+       }
+       else{
+       if (variables.get(key))
+         str+=(key+ " ");
+       else
+         str+=("~"+key+" ");
+       }
+     }
+     return str;
    }
 }

@@ -7,18 +7,15 @@ int cursor = 0;
 int bounds = 500;
 int ellipse_limit = 100;
 int ELLIPSE_SIZE = 15;
+int DELAY = 100;
+
 
 boolean firstGen = true;
 
 void setup(){
   size(bounds,bounds);
-  background(100);
-  fill(0);
-  ellipse(bounds/2,bounds/2,10,10);
   p = initializePopulation();
-  println(p.meanFitness());
 }
-
 
 void draw(){
   background(100);
@@ -48,7 +45,7 @@ void generateNextFrame(){
       dl.get(i).render();
     }
   } else{
-    for (int i = 0;i< size ;i++){
+    for (int i = 0 ; i < size ;i++){
       if (i == cursor) {
         dl.get(i).ind = p.getIndividuals().get(i);
         dl.get(i).locateInScreen();
@@ -56,7 +53,7 @@ void generateNextFrame(){
       dl.get(i).render();
     }    
   }
-  delay(50);
+  delay(DELAY);
   updateCursor();
 }
 
@@ -68,49 +65,14 @@ void updateCursor(){
     firstGen = false;
     p.evolve();
     gen++;
-    println(p.meanFitness());
   }
 }
  
   
 Population initializePopulation(){
   ArrayList<Individual> l = new ArrayList<Individual>();
-  /*for (int i=0; i<size;i++){
-    Square s = new Square();
-    l.add(s);
-    dl.add(new DrawableIndividual(s));
-  }*/
-  
-  // c1 = x, y, !z
-  // c2 = !x
-  // c3 = !y
-  // c4 = z
-  HashMap<String, Boolean> c1 = new HashMap<String, Boolean>();
-  c1.put("x", true);
-  c1.put("y", true);
-  c1.put("z", false);
-
-  HashMap<String, Boolean> c2 = new HashMap<String, Boolean>();
-  c2.put("x", false);
-  
-  HashMap<String, Boolean> c3 = new HashMap<String, Boolean>();
-  c3.put("y", false);
-  
-  HashMap<String, Boolean> c4 = new HashMap<String, Boolean>();
-  c4.put("z", true);
-  
-  Clause clause1 = new Clause(c1);
-  Clause clause2 = new Clause(c2);
-  Clause clause3 = new Clause(c3);
-  Clause clause4 = new Clause(c4);
-  
-  ArrayList<Clause> formula = new ArrayList<Clause>();
-  formula.add(clause1);
-  formula.add(clause2);
-  formula.add(clause3);
-  formula.add(clause4);
-  
-  
+  ArrayList<Clause> formula = loadFormula();
+  printFormula(formula);
   for (int i=0; i<size;i++){
     SAT s = new SAT(formula);
     l.add(s);
@@ -118,5 +80,44 @@ Population initializePopulation(){
   }
   return new Population( l ,progenitors);
 }
+
+ArrayList<Clause> loadFormula(){
+  BufferedReader reader = createReader("formula.txt");
+  ArrayList<Clause> formula = new ArrayList<Clause>();
+  String line;
+  do {    
+    try {
+      line = reader.readLine();
+      if (line!=null){
+        String[] parts = line.split(" ");
+        HashMap<String,Boolean> hm = new HashMap<String,Boolean>();
+        for (String each : parts) {
+          if (each.charAt(0)=='~'){
+            if (hm.containsKey(""+each.charAt(1)) && (hm.get(""+each.charAt(1)) || hm.get(""+each.charAt(1))==null))
+              hm.put(""+ each.charAt(1),null);
+            else
+              hm.put(""+ each.charAt(1),false);
+          }
+          else{
+            if (hm.containsKey(""+each.charAt(0)) && (!hm.get(""+each.charAt(0)) || hm.get(""+each.charAt(0))==null))
+              hm.put(""+ each.charAt(0),null);
+            else
+              hm.put(""+ each.charAt(0),true);
+          }
+        }
+        formula.add(new Clause(hm));
+      }
+    } catch (IOException e) {
+      line = null;
+    }
+  } while(line!=null);
+  return formula;
+}
+
+void printFormula(ArrayList<Clause> formula){
+     for (Clause c : formula){
+       println(c.toString());
+     }
+   }
 
 

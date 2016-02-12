@@ -3,6 +3,9 @@ class DrawableIndividual{
   int x;
   int y;
   
+  int r;
+  int g;
+  
   Individual ind;
   
   DrawableIndividual(Individual ind){
@@ -16,6 +19,7 @@ class DrawableIndividual{
       x = (int) random(0,bounds);
       y = (int) random(0,bounds); 
     }while(insideEllipse(x,y));
+    getColor();
   }
   
   private boolean insideEllipse(int x,int y){
@@ -23,15 +27,14 @@ class DrawableIndividual{
   }
   
   void render(){
-    fill(getColor());
+    fill(color(r,g,0));
     ellipse(x,y,ELLIPSE_SIZE,ELLIPSE_SIZE);
   }
   
-  private color getColor(){
+  private void getColor(){
     int component = (int) ((ind.getFitness() / ind.expectedMaxFitness()) * 255.0);
-    int green = component;
-    int red = 255 - component;
-    return color(red,green,0);
+    g = component;
+    r = 255 - component;
   }
     
 }
