@@ -1,7 +1,6 @@
-x y z
-x ~c f g
-g ~f
-~g ~x y
-~z c ~f
-~y
-y ~x
+p
+~p
+p ~p
+p
+p
+p

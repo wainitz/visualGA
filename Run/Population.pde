@@ -7,6 +7,7 @@ class Population{
   int progenitors;
   float gap;
   HashMap<Individual,Integer> newbies = new HashMap<Individual,Integer>();
+  ArrayList<Individual> candidates;
   
   Population(ArrayList<Individual> population, int progenitors){
     this.progenitors = progenitors;
@@ -14,10 +15,33 @@ class Population{
     this.size = population.size();    
   }
   
+  void phase1(){
+    newbies = new HashMap<Individual,Integer>();
+    gap = 0;
+    candidates = select();
+  }
+  
+  void phase2(){
+    crossover(candidates);
+    mutate(candidates);
+  }
+  
+  void phase3(){
+    for (int i = 0;i<progenitors;i++){
+      //candidates.get(i).getFitness();
+      newbies.put(candidates.get(i),null);
+    }
+  }
+  
+  void phase4(){
+    population = replace(candidates);
+    gap = gap/size;
+  }
+  
   void evolve(){
     newbies = new HashMap<Individual,Integer>();
     gap = 0;
-    ArrayList<Individual> candidates = select();
+    candidates = select();
     crossover(candidates);
     mutate(candidates);
     for (int i = 0;i<progenitors;i++){

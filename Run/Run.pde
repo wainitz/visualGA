@@ -1,8 +1,8 @@
 Population p;
 ArrayList<DrawableIndividual> dl = new ArrayList<DrawableIndividual>();
-int size = 20;
+int size = 200;
 int gen = 0;
-int progenitors = 10;
+int progenitors = 150;
 int cursor = 0;
 int bounds = 500;
 int ellipse_limit = 100;
@@ -61,7 +61,7 @@ void generateNextFrame(){
       dl.get(i).render();
     }    
   }
-  delay(DELAY);
+  //delay(DELAY);
   updateCursor();
 }
 
@@ -80,11 +80,18 @@ void showChosen(DrawableIndividual di){
 
 
 void updateCursor(){
-  cursor++;  
-  if (cursor == size){
+  cursor++; 
+  if (cursor== size/4){
+    p.phase1();
+  }else if (cursor== size/2){
+    p.phase2();
+  }else if (cursor== 3*size/4){
+    p.phase3();
+  } else if (cursor == size){
     cursor = 0;
     firstGen = false;
-    p.evolve();
+    //p.evolve();
+    p.phase4();
     gen++;
   }
 }
@@ -113,18 +120,18 @@ ArrayList<Clause> loadFormula(){
         HashMap<String,Boolean> hm = new HashMap<String,Boolean>();
         for (String each : parts) {
           if (each.charAt(0)=='~'){
-            if (hm.containsKey(""+each.charAt(1)) && (hm.get(""+each.charAt(1)) || hm.get(""+each.charAt(1))==null)){
-              hm.put(""+ each.charAt(1),null);
+            if (hm.containsKey(each.substring(1)) && (hm.get(each.substring(1)) || hm.get(each.substring(1))==null)){
+              hm.put(each.substring(1),null);
             }
             else
-              hm.put(""+ each.charAt(1),false);
+              hm.put(each.substring(1),false);
           }
           else{
-            if (hm.containsKey(""+each.charAt(0)) && (!hm.get(""+each.charAt(0)) || hm.get(""+each.charAt(0))==null)){
-              hm.put(""+ each.charAt(0),null);
+            if (hm.containsKey(each) && (!hm.get(each) || hm.get(each)==null)){
+              hm.put(each,null);
             }
             else
-              hm.put(""+ each.charAt(0),true);
+              hm.put(each,true);
           }
         }
         formula.add(new Clause(hm));
