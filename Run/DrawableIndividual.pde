@@ -50,7 +50,7 @@ class DrawableIndividual{
     if (f == 1.0){
       chosen = true;
     }
-    int component = (int) (f * 255.0);
+    int component = (int) (pow(255.0,f));
     g = component;
     r = 255 - component;
   }
@@ -58,6 +58,7 @@ class DrawableIndividual{
   boolean isChosen(){
     return chosen;
   }
+  
   
 }
   

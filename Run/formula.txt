@@ -1,7 +1,7 @@
-p q r s
-~r s d f
-~q r ~s
-~f
-~q s
-~f ~d r
-~p
+x y z
+x ~c f g
+g ~f
+~g ~x y
+~z c ~f
+~y
+y ~x

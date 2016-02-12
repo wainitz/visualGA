@@ -29,6 +29,7 @@ void draw(){
 
 void showInfo(){
   fill(255);
+  textAlign(LEFT);
   textSize(20);
   String s = "Generation: " + gen; 
   text(s,bounds/15,bounds/15);
@@ -65,7 +66,12 @@ void generateNextFrame(){
 }
 
 void showChosen(DrawableIndividual di){
-  println("Founded!");
+  println("Found!");
+  fill(255);
+  textAlign(CENTER);
+  textSize(50);
+  String str = "Found!";
+  text(str,bounds/2,bounds/3);
   for (String s : di.getIndividual().getAssignment().keySet()){
     println(s + " -> " + di.getIndividual().getAssignment().get(s));
   }
