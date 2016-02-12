@@ -1,1 +1,7 @@
-p ~p
+p q r s
+~r s d f
+~q r ~s
+~f
+~q s
+~f ~d r
+~p

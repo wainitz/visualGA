@@ -1,8 +1,8 @@
 Population p;
 ArrayList<DrawableIndividual> dl = new ArrayList<DrawableIndividual>();
-int size = 50;
+int size = 20;
 int gen = 0;
-int progenitors = 30;
+int progenitors = 10;
 int cursor = 0;
 int bounds = 500;
 int ellipse_limit = 100;
@@ -23,8 +23,8 @@ void draw(){
   stroke(255);
   ellipse(bounds/2,bounds/2,bounds-ellipse_limit,bounds-ellipse_limit);
   stroke(0);
-  showInfo();
   generateNextFrame();
+  showInfo();
 }
 
 void showInfo(){
@@ -33,7 +33,7 @@ void showInfo(){
   String s = "Generation: " + gen; 
   text(s,bounds/15,bounds/15);
   textSize(15);
-  s = "Mean Fitness: " + p.meanFitness();
+  s = "Mean Fitness: " + meanFitness();
   text(s,bounds/20,bounds - bounds/15);
   s = "Gap: " + p.gap;
   text(s,bounds - bounds/5,bounds - bounds/15);
@@ -42,19 +42,34 @@ void showInfo(){
 void generateNextFrame(){
   if (firstGen){
     for (int i = 0; i<cursor;i++){
+      dl.add(new DrawableIndividual(p.getIndividuals().get(i)));
       dl.get(i).render();
+      if (dl.get(i).isChosen()){
+        showChosen(dl.get(i));
+      }
     }
   } else{
     for (int i = 0 ; i < size ;i++){
       if (i == cursor) {
         dl.get(i).ind = p.getIndividuals().get(i);
         dl.get(i).locateInScreen();
+        if (dl.get(i).isChosen()){
+          showChosen(dl.get(i));
+        }
       }
       dl.get(i).render();
     }    
   }
   delay(DELAY);
   updateCursor();
+}
+
+void showChosen(DrawableIndividual di){
+  println("Founded!");
+  for (String s : di.getIndividual().getAssignment().keySet()){
+    println(s + " -> " + di.getIndividual().getAssignment().get(s));
+  }
+  noLoop();
 }
 
 
@@ -76,7 +91,6 @@ Population initializePopulation(){
   for (int i=0; i<size;i++){
     SAT s = new SAT(formula);
     l.add(s);
-    dl.add(new DrawableIndividual(s));
   }
   return new Population( l ,progenitors);
 }
@@ -93,14 +107,16 @@ ArrayList<Clause> loadFormula(){
         HashMap<String,Boolean> hm = new HashMap<String,Boolean>();
         for (String each : parts) {
           if (each.charAt(0)=='~'){
-            if (hm.containsKey(""+each.charAt(1)) && (hm.get(""+each.charAt(1)) || hm.get(""+each.charAt(1))==null))
+            if (hm.containsKey(""+each.charAt(1)) && (hm.get(""+each.charAt(1)) || hm.get(""+each.charAt(1))==null)){
               hm.put(""+ each.charAt(1),null);
+            }
             else
               hm.put(""+ each.charAt(1),false);
           }
           else{
-            if (hm.containsKey(""+each.charAt(0)) && (!hm.get(""+each.charAt(0)) || hm.get(""+each.charAt(0))==null))
+            if (hm.containsKey(""+each.charAt(0)) && (!hm.get(""+each.charAt(0)) || hm.get(""+each.charAt(0))==null)){
               hm.put(""+ each.charAt(0),null);
+            }
             else
               hm.put(""+ each.charAt(0),true);
           }
@@ -115,9 +131,18 @@ ArrayList<Clause> loadFormula(){
 }
 
 void printFormula(ArrayList<Clause> formula){
-     for (Clause c : formula){
-       println(c.toString());
-     }
+  println("Formula:");
+   for (Clause c : formula){
+     println(c.toString());
    }
+ }
+ 
+ float meanFitness(){
+  float total = 0;
+  for (DrawableIndividual di : dl){
+    total+=di.getFitness();
+  } 
+   return total / (float) dl.size(); 
+ }
 
 

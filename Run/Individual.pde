@@ -4,7 +4,7 @@ interface Individual {
   Individual crossover(Individual other);
   Individual mutate();
   Individual clone();
-  float expectedMaxFitness();
+  HashMap<String, Boolean> getAssignment();
   
 }
   

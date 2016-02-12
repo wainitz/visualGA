@@ -28,11 +28,15 @@ class SAT implements Individual {
     }
   }
   
+  HashMap<String, Boolean> getAssignment(){
+    return assignment;
+  }
+  
   
   float getFitness() {
     float count = 0;
     for (Clause clause : clauses) {
-      count += clause.eval(assignment) / (float) clause.size();
+      count += clause.eval(assignment) / (float) clauses.size();
     }
     fitness = count;
     return fitness;
@@ -57,18 +61,7 @@ class SAT implements Individual {
      }
      assignment.put(var, !assignment.get(var));
      return this;
-  }
-  
-  float expectedMaxFitness() {
-     float sum = 0;
-     for (Clause c : clauses) {
-       sum += 1.0 / c.size();
-     }
-     return sum;
-  }
-  
- 
-  
+  } 
    
 }
 
