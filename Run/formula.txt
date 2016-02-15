@@ -1,6 +1,10 @@
-p
-~p
-p ~p
-p
-p
-p
+a b x
+~b a c
+~x ~d
+b ~a ~x
+b ~x
+~a b ~x
+~b a c d
+~d c
+~b ~c 
+~a ~x

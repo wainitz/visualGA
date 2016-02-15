@@ -1,8 +1,8 @@
 Population p;
 ArrayList<DrawableIndividual> dl = new ArrayList<DrawableIndividual>();
-int size = 200;
+int size = 100;
 int gen = 0;
-int progenitors = 150;
+int progenitors = 80;
 int cursor = 0;
 int bounds = 500;
 int ellipse_limit = 100;
