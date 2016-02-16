@@ -5,7 +5,7 @@ class Population{
   ArrayList<Individual> population;  
   int size;
   int progenitors;
-  float gap;
+  float gap = 0;
   HashMap<Individual,Integer> newbies = new HashMap<Individual,Integer>();
   ArrayList<Individual> candidates;
   
@@ -17,7 +17,6 @@ class Population{
   
   void phase1(){
     newbies = new HashMap<Individual,Integer>();
-    gap = 0;
     candidates = select();
   }
   
