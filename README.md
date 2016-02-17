@@ -22,7 +22,7 @@ Download or clone this repository and then insert the SAT formula in conjuntive 
 * Negative literals are specified with **~**
 * SAT formula will be the conjunction of clauses
 
-*For example: **(A or B or C) AND ((not A) or C) AND (not B)** will be:*
+*For example: (A or B or C) AND ((not A) or C) AND (not B) will be:*
 
 ```
 A B C
